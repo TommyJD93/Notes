@@ -15,6 +15,8 @@ For now we have talked about what can be defined as Internet Sockets, used by a 
 his network; but sockets can also be used as endpoint for inter-process communications.
 
 ## 2. OSI Model
-To have a better understanding of what is the role of a socket we'll take a look at the <a href="https://it.wikipedia.org/wiki/Modello_OSI"> OSI model </a> <br>
+To have a better understanding of what is the role of a socket we'll take a look at the <a href="https://it.wikipedia.org/wiki/Modello_OSI"> OSI model </a><br>
 
-[Imgur](https://imgur.com/s6l9G19)
+![OSI_Model](https://github.com/TommyJD93/Notes/assets/59456000/d49f1aba-fc44-4707-9df6-d2ef1a490eab)
+
+
