@@ -81,9 +81,9 @@ First of all let's have a look at these steps:
 - Send and receive data
 - Close connection
 
-I'd like to mention also the five steps of the client, pointing out that: the first two are the same of the server, while 
-the third and fourth step of the server are skipped by the client that jumps directly at step five (obviously the client
-will not accept a connection, but it will try to **establish** a connection).<br>
+I'd like to mention also the five steps of the client, pointing out that: the first two are the same of the server, but then
+rather than binding the socket the client just attempt to connect to the given IP address (basically it skips the step three
+and four of the server).<br>
 Here is the list of the client's steps:
 - Initialize the socket
 - Create the socket
