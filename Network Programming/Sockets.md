@@ -90,3 +90,48 @@ Here is the list of the client's steps:
 - Connect to the server
 - Send and receive data
 - Close connection
+
+**Note: from now on there will be some code snippets, since for the WebServer project I'm going to use C++98 and
+Ubuntu 22.04 I'll be referring to functions, methods, classes and data-types that works for my setup**
+
+### 4.1 Initialize the socket
+For the first step we just need to include the socket library by adding the following line to your
+.hpp file.
+```
+#include <sys/socket.h>
+```
+I know I've said that I'm going to talk for my specific setup, but I thought it would be nice to specify the
+reason why this is a step all by itself and why it isn't included in the creation of a socket. On Windows platform
+it's not enough to include a library, but we need to initialize the DLL responsible for sockets (WSA) and use the
+appropriate functions to determine whether the DLL has been correctly imported or not.
+
+### 4.2 Create the socket
+After that we can call the "socket()" function that will create un unbound socket. The socket function declaration
+is the following: <br>
+```int socket(int domain, int type, int protocol);``` <br><br>
+Let's brake down the parameters.
+
+#### 4.2.1 int domain
+This argument specifies the communication domain used by the socket; this selects the protocol family which will
+be used for communications. All the available domains are specified in the "<sys/socket.h>" lib.
+Here's a few example of domains:
+- AF_UNIX used for local interprocess communication
+- AF_INET used for IPv4 internet protocols (the protocol we are going to use in this project)
+- AF_INET6 used for IPv6 internet protocols. 
+
+#### 4.2.2 int type
+This argument specifies the type of socket to be created and with it the communication semantics.
+Here's two types that are available in "<sys/socket.h>":
+- SOCK_STREAM used for TCP connections
+- SOCK_DGRAM used for UDP connections
+
+#### 4.2.3 int protocol
+The 'protocol' argument specifies a particular protocol to be used with the socket. Normally only one protocol
+exist to support a socket type within a given protocol family, in which case protocol can be specified as '0'.
+However, it is possible that more protocol exists for a given family, in this case the intended protocol must
+be specified.
+
+_<a href="https://man7.org/linux/man-pages/man2/socket.2.html">source 1</a>_ <br>
+_<a href="https://pubs.opengroup.org/onlinepubs/9699919799/functions/socket.html">source 2</a>_
+
+### 4.3 Bind the socket
