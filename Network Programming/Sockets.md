@@ -1,4 +1,4 @@
-# <center>Network & Sockets</center>
+# <div align='center'> Network & Sockets <div>
 
 ## 0. Preface
 These notes are wrote during the studies made to achieve the project "WebServer" of the 42 common core. I will skip or mention concepts and
