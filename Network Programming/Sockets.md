@@ -14,7 +14,7 @@ transport protocol (TCP/UDP), the IP address, and the port number. <br>
 For now we have talked about what can be defined as Internet Sockets, used by a machine to communicate with another machine inside or even outside
 his network; but sockets can also be used as endpoint for inter-process communications. <br>
 
-#### Note: Sockets communicate using file descriptors.
+**Note: Sockets communicate using file descriptors.**
 
 ## 2. OSI Model
 To have a better understanding of what is the role of a socket we'll take a look at the <a href="https://it.wikipedia.org/wiki/Modello_OSI"> OSI model</a>.<br>
@@ -63,8 +63,30 @@ the socket has come to an end, now we have two options: Close the socket, Shutdo
 we will block the connection and destroy the socket. On the other hand we can shutdown our socket, this means that we can block
 the connection without destroying the socket, however we have to specify how to shutdown this socket. For this we have three
 different options that we will call with generic macros for simplicity: SHUT_RD, SHUT_WR and SHUT_RDWR. <br>
-SHUT_RD will block the socket from receiving further messages (pending data in the buffer is still readable), all requests made
+SHUT_RD will block the socket from receiving further messages **(pending data in the buffer is still readable)**, all requests made
 to the socket will return zero-sized messages and the socket is still able to send data. SHUT_WR prevents the socket from sending
-messages (as before all pending messages will be sent before shutting down the socket) and informs the client of it, similar to
+messages **(as before all pending messages will be sent before shutting down the socket)** and informs the client of it, similar to
 SHUT_RD this operation will not affect the reading capabilities of the socket. At last, we have SHUT_RDWR, the result of this mode
 is comparable to the execution of both SHUT_RD and SHUT_WR sequentially.
+
+## 4. Seven steps of a server
+Now that we have talked about the "life cycle" of a socket let's take a look at the seven steps that a server needs to start,
+establish a connection with a client and exchange messages with it.<br>
+First of all let's have a look at these steps:
+- Initialize the socket
+- Create the socket
+- Bind the socket
+- Listen on the socket
+- Accept connection
+- Send and receive data
+- Close connection
+
+I'd like to mention also the five steps of the client, pointing out that: the first two are the same of the server, while 
+the third and fourth step of the server are skipped by the client that jumps directly at step five (obviously the client
+will not accept a connection, but it will try to **establish** a connection).<br>
+Here is the list of the client's steps:
+- Initialize the socket
+- Create the socket
+- Connect to the server
+- Send and receive data
+- Close connection
