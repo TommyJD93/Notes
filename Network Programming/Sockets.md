@@ -1,7 +1,7 @@
 # <div align='center'> Network & Sockets <div>
 
 ## 0. Preface
-These notes are wrote during the studies made to achieve the project "WebServer" of the 42 common core. I will skip or mention concepts and
+These notes were written during the studies made to achieve the project "WebServer" of the 42 common core. I will skip or mention concepts and
 observations unrelated to the matter of the projects. However, there will be present some arguments and concept that aren't strictly
 related to the argument of this note (Sockets), the reason for this choice is that I want to report on this page/s the exact steps I've made
 during the studies and add things that may have helped me out to achieve a better understanding of the subject. Also, these notes will be mostly theoretical.
@@ -51,7 +51,7 @@ the protocol supported by the socket).
 
 ### 3.4 Connected
 Before this status the client has to create a socket of his own that will go through the statuses we've talked before, after that it
-will send a request for the server. Note that the client socket doesn't have any control on the port number used to communicate with
+will send a request to the server. Note that the client socket doesn't have any control on the port number used to communicate with
 the server. Once the connection request from the client is acknowledged and accepted by the server it will duplicate the listening
 socket and this copy will get in the connected status, while the original socket will remain in the listening status. In this way
 the server can handle multiple clients at the same time by accepting all the incoming connections from the original socket and then
