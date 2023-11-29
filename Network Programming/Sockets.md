@@ -161,9 +161,11 @@ As you can ses it contains the address family of the socket and the address to b
 member has to be coherently with one of the macros we've seen in the point 4.2.1.
 
 #### 4.3.3 int address_len
-And for this parameter we simply need to give the size of previous argument, we can do this simply using ```sizeof(address)```
+And for this parameter we simply need to give the size of previous argument, we can do this easily by using ```sizeof(address)```
 
 _<a href="https://man7.org/linux/man-pages/man2/bind.2.html">source 1</a>_ <br>
 _<a href="https://pubs.opengroup.org/onlinepubs/7908799/xns/netinetin.h.html">source 2</a>_ <br>
 _<a href="https://man7.org/linux/man-pages/man3/sockaddr.3type.html">source 3</a>_ <br>
 _<a href="https://pubs.opengroup.org/onlinepubs/009695399/basedefs/sys/socket.h.html">source 4</a>_ <br>
+
+### 4.4 Listen on the socket
