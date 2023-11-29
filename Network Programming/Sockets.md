@@ -60,8 +60,8 @@ redirecting them to duplicates of that socket that will handle the requests of t
 ### 3.5 Close/Shutdown
 Once the communication between client and server has reached the end and a request to close the connection is sent, the "life" of
 the socket has come to an end, now we have two options: Close the socket, Shutdown the socket; if we proceed with the first option
-we will block the connection and destroy the socket. On the other hand we can shutdown our socket, this means that we can block
-the connection without destroying the socket, however we have to specify how to shutdown this socket. For this we have three
+we will block the connection and destroy the socket. On the other hand we can shut down our socket, this means that we can block
+the connection without destroying the socket, however we have to specify how to shut down this socket. For this we have three
 different options that we will call with generic macros for simplicity: SHUT_RD, SHUT_WR and SHUT_RDWR. <br>
 SHUT_RD will block the socket from receiving further messages **(pending data in the buffer is still readable)**, all requests made
 to the socket will return zero-sized messages and the socket is still able to send data. SHUT_WR prevents the socket from sending
@@ -135,3 +135,35 @@ _<a href="https://man7.org/linux/man-pages/man2/socket.2.html">source 1</a>_ <br
 _<a href="https://pubs.opengroup.org/onlinepubs/9699919799/functions/socket.html">source 2</a>_
 
 ### 4.3 Bind the socket
+For the third step we want to bind our IP address and port number to our socket, to do this we use the "bind()"
+function. The function declaration is the following:<br>
+```int bind(int socketfd, struct sockaddr_in *address, int address_len);``` <br><br>
+
+#### 4.3.1 int socketfd
+This argument specifies the file descriptor given by the previous "socket()" call
+
+#### 4.3.2 struct sockaddr_in *address
+This parameter is a pointer to the "sockaddr_in" structure which is the following:
+```C++
+#include <netinet/in.h>
+
+struct sockaddr_in {
+    sa_family_t     sin_family;     /* Address Family */
+    in_port_t       sin_port;       /* Port number */
+    struct in_addr  sin_addr;       /* Socket address */
+};
+
+struct in_addr {
+   in_addr_t s_addr;        /* Data structure to store IP addresses */
+};
+```
+As you can ses it contains the address family of the socket and the address to be bound to the socket. The sin_family
+member has to be coherently with one of the macros we've seen in the point 4.2.1.
+
+#### 4.3.3 int address_len
+And for this parameter we simply need to give the size of previous argument, we can do this simply using ```sizeof(address)```
+
+_<a href="https://man7.org/linux/man-pages/man2/bind.2.html">source 1</a>_ <br>
+_<a href="https://pubs.opengroup.org/onlinepubs/7908799/xns/netinetin.h.html">source 2</a>_ <br>
+_<a href="https://man7.org/linux/man-pages/man3/sockaddr.3type.html">source 3</a>_ <br>
+_<a href="https://pubs.opengroup.org/onlinepubs/009695399/basedefs/sys/socket.h.html">source 4</a>_ <br>
