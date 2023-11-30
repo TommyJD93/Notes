@@ -97,7 +97,7 @@ Ubuntu 22.04 I'll be referring to functions, methods, classes and data-types tha
 ### 4.1 Initialize the socket
 For the first step we just need to include the socket library by adding the following line to your
 .hpp file.
-```
+```C++
 #include <sys/socket.h>
 ```
 I know I've said that I'm going to talk for my specific setup, but I thought it would be nice to specify the
@@ -106,27 +106,29 @@ it's not enough to include a library, but we need to initialize the DLL responsi
 appropriate functions to determine whether the DLL has been correctly imported or not.
 
 ### 4.2 Create the socket
-After that we can call the "socket()" function that will create un unbound socket. The socket function declaration
+After that we can call the ```socket()``` function that will create un unbound socket. The socket function declaration
 is the following: <br>
-```int socket(int domain, int type, int protocol);``` <br><br>
+```C++ 
+int socket(int domain, int type, int protocol);
+```
 Let's brake down the parameters.
 
 #### 4.2.1 int domain
-This argument specifies the communication domain used by the socket; this selects the protocol family which will
-be used for communications. All the available domains are specified in the "<sys/socket.h>" lib.
+The argument _domain_ specifies the communication domain used by the socket; this selects the protocol family which will
+be used for communications. All the available domains are specified in the ```<sys/socket.h>``` lib.
 Here's a few example of domains:
 - AF_UNIX used for local interprocess communication
 - AF_INET used for IPv4 internet protocols (the protocol we are going to use in this project)
 - AF_INET6 used for IPv6 internet protocols. 
 
 #### 4.2.2 int type
-This argument specifies the type of socket to be created and with it the communication semantics.
-Here's two types that are available in "<sys/socket.h>":
+The _type_ argument specifies the type of socket to be created and with it the communication semantics.
+Here's two types that are available in ```<sys/socket.h>```:
 - SOCK_STREAM used for TCP connections
 - SOCK_DGRAM used for UDP connections
 
 #### 4.2.3 int protocol
-The 'protocol' argument specifies a particular protocol to be used with the socket. Normally only one protocol
+The _protocol_ argument specifies a particular protocol to be used with the socket. Normally only one protocol
 exist to support a socket type within a given protocol family, in which case protocol can be specified as '0'.
 However, it is possible that more protocol exists for a given family, in this case the intended protocol must
 be specified.
@@ -135,15 +137,17 @@ _<a href="https://man7.org/linux/man-pages/man2/socket.2.html">source 1</a>_ <br
 _<a href="https://pubs.opengroup.org/onlinepubs/9699919799/functions/socket.html">source 2</a>_
 
 ### 4.3 Bind the socket
-For the third step we want to bind our IP address and port number to our socket, to do this we use the "bind()"
+For the third step we want to bind our IP address and port number to our socket, to do this we use the ```bind()```
 function. The function declaration is the following:<br>
-```int bind(int socketfd, struct sockaddr_in *address, int address_len);``` <br><br>
+```C++
+int bind(int socketfd, struct sockaddr_in *address, int address_len);
+```
 
 #### 4.3.1 int socketfd
-This argument specifies the file descriptor given by the previous "socket()" call
+This argument _socketfd_ specifies the file descriptor given by the previous ```socket()``` call.
 
 #### 4.3.2 struct sockaddr_in *address
-This parameter is a pointer to the "sockaddr_in" structure which is the following:
+This parameter is a pointer to the _sockaddr_in_ structure which is the following:
 ```C++
 #include <netinet/in.h>
 
@@ -161,7 +165,8 @@ As you can ses it contains the address family of the socket and the address to b
 member has to be coherently with one of the macros we've seen in the point 4.2.1.
 
 #### 4.3.3 int address_len
-And for this parameter we simply need to give the size of previous argument, we can do this easily by using ```sizeof(address)```
+And for the _address_len_ argument we simply need to give the size of previous argument, we can do this easily by using
+```sizeof(address)```
 
 _<a href="https://man7.org/linux/man-pages/man2/bind.2.html">source 1</a>_ <br>
 _<a href="https://pubs.opengroup.org/onlinepubs/7908799/xns/netinetin.h.html">source 2</a>_ <br>
@@ -169,3 +174,16 @@ _<a href="https://man7.org/linux/man-pages/man3/sockaddr.3type.html">source 3</a
 _<a href="https://pubs.opengroup.org/onlinepubs/009695399/basedefs/sys/socket.h.html">source 4</a>_ <br>
 
 ### 4.4 Listen on the socket
+To set the socket to the listening state we have to use the ```listen()``` function. This function marks the socket
+as passive, by doing so the socket can be used to accept incoming connection requests using the function ```accept()```
+that we'll see later. The declaration of the ```listen()``` function is the following:
+```C++
+int listen(int sockfd, int backlog);
+```
+
+#### 4.4.1 int sockfd
+The _sockfd_ argument is the file descriptor previously created by the call of the ```socket()``` function.
+
+#### 4.4.2 int backlog
+The _backlog_ argument the maximum length to which the queue of pending connections for _sockfd_ may grow.
+
