@@ -187,3 +187,24 @@ The _sockfd_ argument is the file descriptor previously created by the call of t
 #### 4.4.2 int backlog
 The _backlog_ argument the maximum length to which the queue of pending connections for _sockfd_ may grow.
 
+### 4.5 Accept connection
+Once our server receives a connection, from the socket that has been placed in listening state, we call the ```accept()```
+function.
+```C++
+int accept(int socketfd, struct sockaddr *_Nullable address, socklen_t *_Nullable address_len);
+```
+Before breaking down the parameter we need to know that the call ```accept()``` create a new socket with the same
+properties of the socket specified by _socketfd_, and it will return a new fd that refers to the newly created socket.
+ 
+#### 4.5.1 int sockfd
+This argument is the file descriptor of the previously created, bound and set to listen socket.
+
+#### 4.5.2 struct sockaddr *_Nullable address
+This argument is filled by the ```accept()``` function itself it returns. It contains the address of the connecting
+socket, its format is determined by the domain that the client resides in. This parameter can be NULL if the caller
+is not interested in the client address.
+
+#### 4.5.3 socklen_t *_Nullable address_len
+This argument must initially point to an integer that represent the size in bytes of the storage pointed to by _address_
+
+
