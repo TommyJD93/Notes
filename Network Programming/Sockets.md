@@ -98,6 +98,7 @@ Ubuntu 22.04 I'll be referring to functions, methods, classes and data-types tha
 For the first step we just need to include the socket library by adding the following line to your
 .hpp file.
 ```C++
+#include <sys/types.h>
 #include <sys/socket.h>
 ```
 I know I've said that I'm going to talk for my specific setup, but I thought it would be nice to specify the
@@ -106,7 +107,8 @@ it's not enough to include a library, but we need to initialize the DLL responsi
 appropriate functions to determine whether the DLL has been correctly imported or not.
 
 ### 4.2 Create the socket
-After that we can call the ```socket()``` function that will create un unbound socket. The socket function declaration
+After that we can call the ```socket()``` function that will create un unbound socket and returns a file descriptor
+relative to that socket. The socket function declaration
 is the following: <br>
 ```C++ 
 int socket(int domain, int type, int protocol);
@@ -138,10 +140,29 @@ _<a href="https://pubs.opengroup.org/onlinepubs/9699919799/functions/socket.html
 
 ### 4.3 Bind the socket
 For the third step we want to bind our IP address and port number to our socket, to do this we use the ```bind()```
-function. The function declaration is the following:<br>
+function. The returns are 0 on success and -1 on error, also in case of error the errno is set to indicate such error.
+The function declaration is the following:
 ```C++
 int bind(int socketfd, struct sockaddr_in *address, int address_len);
 ```
+To have an easier manipulation of hte option for the socket before binding it we may want to use another function which
+is ```setsockopt()```. This is optional, but it will help us in reuse ports and addresses as well as avoiding errors. The
+function declaration is the following:
+```c++
+int setsockopt(int sockfd, int level, int optname, const void *optval, socklen_t optlen);
+```
+Let's begin by taking a look at the ```setsockopt()``` function.
+
+#### 4.3.1 int socketfd
+This argument _socketfd_ specifies the file descriptor given by the previous ```socket()``` call.
+
+#### 4.3.2 int level
+The _level_ argument specifies the protocol level at which the options that we will specify will take effect on the socket.
+For this project we will be using the ```SOL_SOCKET``` level which affects the socket itself.
+
+#### 4.3.2 int optname
+The _optname_ specifies the option we want at the desired level previously set. For this project we are going to use the
+following flags: 
 
 #### 4.3.1 int socketfd
 This argument _socketfd_ specifies the file descriptor given by the previous ```socket()``` call.
@@ -205,6 +226,8 @@ socket, its format is determined by the domain that the client resides in. This 
 is not interested in the client address.
 
 #### 4.5.3 socklen_t *_Nullable address_len
-This argument must initially point to an integer that represent the size in bytes of the storage pointed to by _address_
-
+This argument must initially point to an integer that represent the size in bytes of the storage pointed to by _address_.
+On return, that integer contains the size required to represent the address of the connecting socket. If this value is
+larger than the size supplied on input, then the information contained in _sockaddr_ is truncated to the length supplied
+on input. If address is NULL, address_len is ignored.
 
