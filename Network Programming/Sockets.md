@@ -78,7 +78,7 @@ First of all let's have a look at these steps:
 - Bind the socket
 - Listen on the socket
 - Accept connection
-- Send and receive data
+- Receive and send data
 - Close connection
 
 I'd like to mention also the five steps of the client, pointing out that: the first two are the same of the server, but then
@@ -207,4 +207,5 @@ is not interested in the client address.
 #### 4.5.3 socklen_t *_Nullable address_len
 This argument must initially point to an integer that represent the size in bytes of the storage pointed to by _address_
 
+### 4.6 Receive and send Data
 
